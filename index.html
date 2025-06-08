@@ -4,86 +4,59 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mi PlayList para mi Amada 💖</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="iconos/icon-192.png" type="image/png" />
   <style>
-    body {
-      background: linear-gradient(to bottom right, #ffe6f0, #fff5fa);
-      font-family: 'Arial', sans-serif;
-      text-align: center;
-      padding: 30px;
-      color: #333;
-    }
-
-    h1 {
-      color: #e91e63;
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
-
-    #now-playing {
-      font-size: 20px;
-      margin-bottom: 30px;
-      opacity: 0;
-      transition: all 0.8s ease;
-      transform: translateY(-10px);
-    }
-
-    #now-playing.show {
-      opacity: 1;
-      transform: translateY(0);
-      color: #d81b60;
-      font-weight: bold;
-    }
-
-    ul#playlist {
-      list-style: none;
-      padding: 0;
-    }
-
-    ul#playlist li {
-      background-color: #f8bbd0;
-      color: #fff;
-      padding: 12px 18px;
-      margin: 10px auto;
-      width: fit-content;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-    }
-
-    ul#playlist li:hover {
-      background-color: #ec407a;
-      transform: scale(1.05);
-    }
-
-    audio {
-      margin-top: 30px;
-      width: 90%;
-      max-width: 400px;
+    .show {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
     }
   </style>
 </head>
 <body>
-  <h1>Mi PlayList para mi Amada 💖</h1>
-  
-  <h2 id="now-playing">Reproduciendo: Canción 1 - Siempre Tú</h2>
+  <header>
+    <h1>🎶 Mi PlayList para mi Amada 💖</h1>
+  </header>
 
-  <ul id="playlist">
-    <li onclick="playSong('cancion1.mp3', 'Canción 1 - Siempre Tú')">▶️ Canción 1 - Siempre Tú</li>
-    <li onclick="playSong('cancion2.mp3', 'Canción 2 - Nuestro Lugar Secreto')">▶️ Canción 2 - Nuestro Lugar Secreto</li>
-  </ul>
+  <main>
+    <div class="player">
+      <img src="iconos/icon-192.png" alt="Portada" class="cover" />
+      <h2 id="now-playing" class="song-title">Reproduciendo: Canción 1 - Siempre Tú</h2>
 
-  <audio id="audio-player" controls>
-    Tu navegador no soporta audio HTML5.
-  </audio>
+      <audio id="audio-player" controls>
+        <source src="musica/cancion1.mp3" type="audio/mp3" />
+        Tu navegador no soporta el reproductor de audio.
+      </audio>
+
+      <ul id="playlist">
+        <li onclick="playSong('cancion1.mp3', 'Canción 1 - Siempre Tú')">▶️ Canción 1 - Siempre Tú</li>
+        <li onclick="playSong('cancion2.mp3', 'Canción 2 - Nuestro Lugar Secreto')">▶️ Canción 2 - Nuestro Lugar Secreto</li>
+      </ul>
+
+      <div class="controls">
+        <button onclick="prevSong()">⏮️ Anterior</button>
+        <button onclick="nextSong()">⏭️ Siguiente</button>
+      </div>
+    </div>
+  </main>
 
   <script>
-    function playSong(file, title) {
-      const player = document.getElementById('audio-player');
-      const nowPlaying = document.getElementById('now-playing');
+    const tracks = [
+      { title: "Canción 1 - Siempre Tú", file: "cancion1.mp3" },
+      { title: "Canción 2 - Nuestro Lugar Secreto", file: "cancion2.mp3" }
+    ];
 
+    let currentTrack = 0;
+
+    const player = document.getElementById('audio-player');
+    const nowPlaying = document.getElementById('now-playing');
+
+    function playSong(file, title) {
       player.src = 'musica/' + file;
       nowPlaying.textContent = 'Reproduciendo: ' + title;
 
+      // animación
       nowPlaying.classList.remove('show');
       void nowPlaying.offsetWidth;
       nowPlaying.classList.add('show');
@@ -91,7 +64,20 @@
       player.play();
     }
 
-    // Ya no se borra el texto del título al cargar 🎉
+    function nextSong() {
+      currentTrack = (currentTrack + 1) % tracks.length;
+      playSong(tracks[currentTrack].file, tracks[currentTrack].title);
+    }
+
+    function prevSong() {
+      currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
+      playSong(tracks[currentTrack].file, tracks[currentTrack].title);
+    }
+
+    // Reproducir la primera canción automáticamente al cargar
+    window.onload = () => {
+      playSong(tracks[currentTrack].file, tracks[currentTrack].title);
+    };
   </script>
 </body>
 </html>
