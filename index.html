@@ -23,7 +23,7 @@
     <div class="player">
       <img src="iconos/icon-192.png" alt="Portada" class="cover" />
       
-      <!-- Mostrar título desde el principio con texto por defecto -->
+      <!-- Mostrar título desde el principio -->
       <h2 id="now-playing" class="song-title show">Reproduciendo: Canción 1 - Siempre Tú</h2>
 
       <audio id="audio-player" controls>
@@ -33,7 +33,7 @@
 
       <ul id="playlist">
         <li onclick="playSong('cancion1.mp3', 'Canción 1 - Siempre Tú')">▶️ Canción 1 - Siempre Tú</li>
-        <li onclick="playSong('cancion2.mp3', 'Canción 2 - Nuestro Lugar Secreto')">▶️ Canción 2 - Nuestro Lugar Secreto</li>
+        <li onclick="playSong('cancion2.mp3', 'Canción 2 - Siempre Contigo')">▶️ Canción 2 - Siempre Contigo</li>
       </ul>
 
       <div class="controls">
@@ -46,7 +46,7 @@
   <script>
     const tracks = [
       { title: "Canción 1 - Siempre Tú", file: "cancion1.mp3" },
-      { title: "Canción 2 - Nuestro Lugar Secreto", file: "cancion2.mp3" }
+      { title: "Canción 2 - Siempre Contigo", file: "cancion2.mp3" }
     ];
 
     let currentTrack = 0;
@@ -79,7 +79,7 @@
 
     window.onload = () => {
       playSong(tracks[currentTrack].file, tracks[currentTrack].title);
-      nowPlaying.classList.add('show'); // mostrar al iniciar (PWA)
+      nowPlaying.classList.add('show'); // asegurar que aparezca en PWA
     };
   </script>
 </body>
