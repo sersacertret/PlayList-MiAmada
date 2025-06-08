@@ -56,7 +56,6 @@
       player.src = 'musica/' + file;
       nowPlaying.textContent = 'Reproduciendo: ' + title;
 
-      // animación
       nowPlaying.classList.remove('show');
       void nowPlaying.offsetWidth;
       nowPlaying.classList.add('show');
@@ -74,9 +73,10 @@
       playSong(tracks[currentTrack].file, tracks[currentTrack].title);
     }
 
-    // Reproducir la primera canción automáticamente al cargar
+    // Reproducir la primera canción al cargar y mostrar el título en apps instaladas
     window.onload = () => {
       playSong(tracks[currentTrack].file, tracks[currentTrack].title);
+      nowPlaying.classList.add('show'); // asegúrate de mostrarlo en PWA también
     };
   </script>
 </body>
