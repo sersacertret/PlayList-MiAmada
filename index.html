@@ -22,7 +22,9 @@
   <main>
     <div class="player">
       <img src="iconos/icon-192.png" alt="Portada" class="cover" />
-      <h2 id="now-playing" class="song-title">Reproduciendo: Canción 1 - Siempre Tú</h2>
+      
+      <!-- Mostrar título desde el principio con texto por defecto -->
+      <h2 id="now-playing" class="song-title show">Reproduciendo: Canción 1 - Siempre Tú</h2>
 
       <audio id="audio-player" controls>
         <source src="musica/cancion1.mp3" type="audio/mp3" />
@@ -54,6 +56,8 @@
 
     function playSong(file, title) {
       player.src = 'musica/' + file;
+      player.load(); // forzar recarga del archivo
+
       nowPlaying.textContent = 'Reproduciendo: ' + title;
 
       nowPlaying.classList.remove('show');
@@ -73,10 +77,9 @@
       playSong(tracks[currentTrack].file, tracks[currentTrack].title);
     }
 
-    // Reproducir la primera canción al cargar y mostrar el título en apps instaladas
     window.onload = () => {
       playSong(tracks[currentTrack].file, tracks[currentTrack].title);
-      nowPlaying.classList.add('show'); // asegúrate de mostrarlo en PWA también
+      nowPlaying.classList.add('show'); // mostrar al iniciar (PWA)
     };
   </script>
 </body>
