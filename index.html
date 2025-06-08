@@ -30,7 +30,7 @@
       100% { transform: translateX(-100%); }
     }
 
-    .download-button {
+    .download-button, .install-button {
       background-color: #4CAF50;
       color: white;
       padding: 10px 20px;
@@ -41,9 +41,20 @@
       font-size: 14px;
       transition: transform 0.2s ease, background-color 0.3s ease;
     }
-    .download-button:hover {
+
+    .download-button:hover, .install-button:hover {
       transform: scale(1.05);
       background-color: #45a049;
+    }
+
+    .ios-message {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #555;
+      background: #fff3cd;
+      padding: 10px;
+      border-radius: 10px;
+      display: none;
     }
   </style>
 </head>
@@ -62,8 +73,9 @@
         Tu navegador no soporta el reproductor de audio.
       </audio>
 
-      <!-- Botón de descarga -->
       <button id="download-btn" class="download-button">⬇️ Descargar canción actual</button>
+      <button id="install-btn" class="install-button" style="display: none;">📲 Instalar esta app</button>
+      <div id="ios-msg" class="ios-message">📱 En iPhone, toca <strong>el botón compartir</strong> (cuadro con flecha) y selecciona <strong>"Agregar a pantalla de inicio"</strong> para instalar la app.</div>
 
       <ul id="playlist">
         <li onclick="playSong('cancion1.mp3', 'Canción 1 - Siempre Tú')">▶️ Canción 1 - Siempre Tú</li>
@@ -114,7 +126,7 @@
       nowPlaying.classList.add('show');
     };
 
-    // Botón para descargar canción actual
+    // Botón de descarga
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('download-btn').addEventListener('click', () => {
         const current = tracks[currentTrack];
@@ -125,7 +137,7 @@
       });
     });
 
-    // ✨ Partículas al tocar pantalla
+    // Partículas al tocar
     document.addEventListener('click', function(e) {
       const particle = document.createElement('span');
       particle.textContent = '✨';
@@ -145,6 +157,35 @@
         particle.remove();
       }, 1000);
     });
+
+    // Botón de instalación (Android)
+    let deferredPrompt;
+    const installBtn = document.getElementById('install-btn');
+    const iosMsg = document.getElementById('ios-msg');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = 'inline-block';
+    });
+
+    installBtn.addEventListener('click', () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+          deferredPrompt = null;
+          installBtn.style.display = 'none';
+        });
+      }
+    });
+
+    // Detectar iOS y mostrar mensaje personalizado
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const isInStandaloneMode = ('standalone' in window.navigator) && window.navigator.standalone;
+
+    if (isIOS && !isInStandaloneMode) {
+      iosMsg.style.display = 'block';
+    }
   </script>
 </body>
 </html>
