@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playlist Mi Amada</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="iconos/icon-192.png" type="image/png" />
+</head>
+<body>
+  <header>
+    <h1>🎶 Mi Playlist IA para ti 💖</h1>
+  </header>
+
+  <main>
+    <div class="player">
+      <img src="iconos/icon-192.png" alt="Portada" class="cover" />
+      <h2 id="track-title">Canción 1</h2>
+      <audio id="audio-player" controls>
+        <source src="musica/cancion1.mp3" type="audio/mp3" />
+        Tu navegador no soporta el reproductor de audio.
+      </audio>
+      <div class="controls">
+        <button onclick="prevSong()">⏮️ Anterior</button>
+        <button onclick="nextSong()">⏭️ Siguiente</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('✔️ Service Worker registrado'))
+        .catch(error => console.error('❌ Error en Service Worker:', error));
+    }
+  </script>
+</body>
+</html>
