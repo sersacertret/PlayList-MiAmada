@@ -84,7 +84,6 @@
       player.src = 'musica/' + file;
       nowPlaying.textContent = 'Reproduciendo: ' + title;
 
-      // Reiniciar animación
       nowPlaying.classList.remove('show');
       void nowPlaying.offsetWidth;
       nowPlaying.classList.add('show');
@@ -92,8 +91,7 @@
       player.play();
     }
 
-    // Ocultar texto al inicio
-    document.getElementById('now-playing').textContent = '';
+    // Ya no se borra el texto del título al cargar 🎉
   </script>
 </body>
 </html>
