@@ -26,12 +26,24 @@
     }
 
     @keyframes scroll-left {
-      0% {
-        transform: translateX(100%);
-      }
-      100% {
-        transform: translateX(-100%);
-      }
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .download-button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-top: 15px;
+      font-size: 14px;
+      transition: transform 0.2s ease, background-color 0.3s ease;
+    }
+    .download-button:hover {
+      transform: scale(1.05);
+      background-color: #45a049;
     }
   </style>
 </head>
@@ -43,14 +55,15 @@
   <main>
     <div class="player">
       <img src="iconos/icon-192.png" alt="Portada" class="cover" />
-
-      <!-- Texto con animación deslizante -->
       <h2 id="now-playing" class="scroll-text">Reproduciendo: Canción 1 - Siempre Tú</h2>
 
       <audio id="audio-player" controls>
         <source src="musica/cancion1.mp3" type="audio/mp3" />
         Tu navegador no soporta el reproductor de audio.
       </audio>
+
+      <!-- Botón de descarga -->
+      <button id="download-btn" class="download-button">⬇️ Descargar canción actual</button>
 
       <ul id="playlist">
         <li onclick="playSong('cancion1.mp3', 'Canción 1 - Siempre Tú')">▶️ Canción 1 - Siempre Tú</li>
@@ -71,14 +84,12 @@
     ];
 
     let currentTrack = 0;
-
     const player = document.getElementById('audio-player');
     const nowPlaying = document.getElementById('now-playing');
 
     function playSong(file, title) {
       player.src = 'musica/' + file;
       player.load();
-
       nowPlaying.textContent = 'Reproduciendo: ' + title;
 
       nowPlaying.classList.remove('show');
@@ -102,6 +113,38 @@
       playSong(tracks[currentTrack].file, tracks[currentTrack].title);
       nowPlaying.classList.add('show');
     };
+
+    // Botón para descargar canción actual
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('download-btn').addEventListener('click', () => {
+        const current = tracks[currentTrack];
+        const link = document.createElement('a');
+        link.href = 'musica/' + current.file;
+        link.download = current.file;
+        link.click();
+      });
+    });
+
+    // ✨ Partículas al tocar pantalla
+    document.addEventListener('click', function(e) {
+      const particle = document.createElement('span');
+      particle.textContent = '✨';
+      particle.style.position = 'absolute';
+      particle.style.left = e.pageX + 'px';
+      particle.style.top = e.pageY + 'px';
+      particle.style.fontSize = '20px';
+      particle.style.pointerEvents = 'none';
+      particle.style.opacity = 1;
+      particle.style.transition = 'all 0.8s ease-out';
+      document.body.appendChild(particle);
+      setTimeout(() => {
+        particle.style.top = (e.pageY - 30) + 'px';
+        particle.style.opacity = 0;
+      }, 10);
+      setTimeout(() => {
+        particle.remove();
+      }, 1000);
+    });
   </script>
 </body>
 </html>
