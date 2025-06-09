@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mi PlayList para mi Amada 💖</title>
 
-  <!-- ✅ META para redes sociales -->
+  <!-- META para compartir -->
   <meta property="og:title" content="Mi PlayList para mi Amada 💖" />
   <meta property="og:description" content="Una app musical romántica solo para ti." />
   <meta property="og:image" content="https://sersacertret.github.io/PlayList-MiAmada/iconos/preview.jpg" />
@@ -64,6 +64,17 @@
       border-radius: 10px;
       display: none;
     }
+
+    #lyrics {
+      margin-top: 20px;
+      white-space: pre-line;
+      text-align: center;
+      font-size: 14px;
+      color: #444;
+      background: #fdfdfd;
+      padding: 15px;
+      border-radius: 10px;
+    }
   </style>
 </head>
 <body>
@@ -94,18 +105,78 @@
         <button onclick="prevSong()">⏮️ Anterior</button>
         <button onclick="nextSong()">⏭️ Siguiente</button>
       </div>
+
+      <div id="lyrics"></div>
     </div>
   </main>
 
   <script>
     const tracks = [
-      { title: "Canción 1 - Siempre Tú", file: "cancion1.mp3" },
-      { title: "Canción 2 - Siempre Contigo", file: "cancion2.mp3" }
+      {
+        title: "Canción 1 - Siempre Tú",
+        file: "cancion1.mp3",
+        lyrics: `
+Pasaron muchos años, y yo nunca te pude olvidar,  
+cada noche te convertías en susurro,  
+y me acompañabas en cada amanecer.  
+
+La distancia era grande,  
+pero nuestras almas se veían a escondidas en el viento,  
+dando a entender que lo nuestro era un destino escrito en fuego y tiempo.  
+
+Ogris, mi amor, mi razón,  
+eres la historia que mi corazón no quiso olvidar.  
+Aunque la vida intentó alejarnos,  
+el universo volvió a reencontrarnos.  
+
+Ahora, tu sonrisa que es mi refugio,  
+tu voz, el eco de mi paz.  
+Me llamas Ogro, mi amor, mi esposo y sonrío,  
+porque eres mi hogar.  
+
+No hay distancia que borre lo eterno,  
+ni un solo día en que no te quiera.  
+
+Ogrita, mi amor, mi vida,  
+eres la historia que mi corazón no quiso olvidar.  
+Hoy vivimos lo que el destino soñó:  
+tú y yo, y nuestros hijos, un amor sin adiós.`
+      },
+      {
+        title: "Canción 2 - Siempre Contigo",
+        file: "cancion2.mp3",
+        lyrics: `
+Sé que el viento hoy te pesa,  
+que el sol parece apagar su luz.  
+Las sombras te rodean,  
+pero mi Ogris no estás sola, aquí estoy yo para ti.  
+
+Ogris, mi vida, mi amor,  
+aunque la vida intente quebrarnos,  
+siempre contigo voy a estar,  
+eres mi mundo, eres mi universo.  
+
+Cada lágrima que hoy derramas  
+es un eco de todo lo que has dado.  
+Pero amor, eres mucho más fuerte  
+de lo que el miedo te deja mirar.  
+
+¿Sabes? La distancia nunca nos ha separado,  
+porque siempre estás en mí.  
+Pronto estaré ahí contigo,  
+para abrazarte, besarte y no dejarte ir.  
+
+Ogris, mi vida, mi amor,  
+aunque la vida intente quebrarnos,  
+siempre contigo voy a estar,  
+eres mi mundo, eres mi universo, mi eternidad.`
+      }
     ];
 
     let currentTrack = 0;
     const player = document.getElementById('audio-player');
     const nowPlaying = document.getElementById('now-playing');
+    const lyricsBox = document.getElementById('lyrics');
 
     function playSong(file, title) {
       player.src = 'musica/' + file;
@@ -115,6 +186,9 @@
       nowPlaying.classList.remove('show');
       void nowPlaying.offsetWidth;
       nowPlaying.classList.add('show');
+
+      const current = tracks.find(t => t.file === file);
+      lyricsBox.textContent = current?.lyrics || '';
 
       player.play();
     }
@@ -186,7 +260,6 @@
 
     const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
     const isInStandaloneMode = ('standalone' in window.navigator) && window.navigator.standalone;
-
     if (isIOS && !isInStandaloneMode) {
       iosMsg.style.display = 'block';
     }
