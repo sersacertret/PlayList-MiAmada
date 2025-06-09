@@ -1,6 +1,6 @@
 {
-  "name": "PlayList Mi Amada",
-  "short_name": "PlaylistIA",
+  "name": "MúsicOgris",
+  "short_name": "MúsicOgris",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffd4ec",
