@@ -49,3 +49,8 @@ header {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+#mini-cover {
+  animation: spin 4s linear infinite;
+  animation-play-state: paused;
+}
