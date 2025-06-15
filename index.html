@@ -92,7 +92,10 @@
   <main>
     <div class="player">
       <img src="iconos/icon-192.png" alt="Portada" class="cover" />
-      <h2 id="now-playing" class="scroll-text">Reproduciendo: Canción 1 - Siempre Tú</h2>
+      <div id="now-playing-container" class="scroll-text" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+  <img id="mini-cover" src="portadas/cancion1.png" alt="Mini portada" style="width: 30px; height: 30px; border-radius: 50%; animation: spin 4s linear infinite; animation-play-state: paused;" />
+  <span id="now-playing">Reproduciendo: Canción 1 - Siempre Tú</span>
+</div>
 
       <audio id="audio-player" controls>
         <source src="musica/cancion1.mp3" type="audio/mp3" />
