@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,15 +13,26 @@
   <meta property="og:url" content="https://sersacertret.github.io/PlayList-MiAmada/" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <link rel="stylesheet" href="style.css" />
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="iconos/icon-192.png" type="image/png" />
   <style>
-    .show {
-      opacity: 1 !important;
-      transform: translateY(0) !important;
+    body {
+      font-family: sans-serif;
+      background: #ffe4ec;
+      margin: 0;
+      padding: 0;
+      text-align: center;
     }
-
+    header h1 {
+      color: #d81b60;
+      padding: 1rem;
+    }
+    .cover {
+      width: 120px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px gold;
+      margin: 10px auto;
+    }
     .scroll-text {
       font-size: 14px;
       white-space: nowrap;
@@ -32,12 +44,10 @@
       font-weight: bold;
       margin: 10px 0;
     }
-
     @keyframes scroll-left {
       0% { transform: translateX(100%); }
       100% { transform: translateX(-100%); }
     }
-
     .download-button, .install-button {
       background-color: #4CAF50;
       color: white;
@@ -49,12 +59,10 @@
       font-size: 14px;
       transition: transform 0.2s ease, background-color 0.3s ease;
     }
-
     .download-button:hover, .install-button:hover {
       transform: scale(1.05);
       background-color: #45a049;
     }
-
     .ios-message {
       margin-top: 10px;
       font-size: 14px;
@@ -64,7 +72,6 @@
       border-radius: 10px;
       display: none;
     }
-
     #lyrics {
       margin-top: 20px;
       white-space: pre-line;
@@ -94,11 +101,12 @@
 
       <button id="download-btn" class="download-button">⬇️ Descargar canción actual</button>
       <button id="install-btn" class="install-button" style="display: none;">📲 Instalar esta app</button>
-      <div id="ios-msg" class="ios-message">📱 En iPhone, toca <strong>el botón compartir</strong> (cuadro con flecha) y selecciona <strong>"Agregar a pantalla de inicio"</strong> para instalar la app.</div>
+      <div id="ios-msg" class="ios-message">📱 En iPhone, toca <strong>el botón compartir</strong> y selecciona <strong>"Agregar a pantalla de inicio"</strong>.</div>
 
       <ul id="playlist">
         <li onclick="playSong('cancion1.mp3', 'Canción 1 - Siempre Tú')">▶️ Canción 1 - Siempre Tú</li>
         <li onclick="playSong('cancion2.mp3', 'Canción 2 - Siempre Contigo')">▶️ Canción 2 - Siempre Contigo</li>
+        <li onclick="playSong('cancion3.mp3', 'Canción 3 - Estoy Contigo')">▶️ Canción 3 - Estoy Contigo</li>
       </ul>
 
       <div class="controls">
@@ -109,169 +117,186 @@
       <div id="lyrics"></div>
     </div>
   </main>
+<script>
+const tracks = [
+  {
+    title: "Canción 1 - Siempre Tú",
+    file: "cancion1.mp3",
+    lyrics: `Pasaron muchos años, y yo nunca te pude olvidar,
+cada noche te convertías en susurro,
+y me acompañabas en cada amanecer.
 
-  <script>
-    const tracks = [
-      {
-        title: "Canción 1 - Siempre Tú",
-        file: "cancion1.mp3",
-        lyrics: `
-Pasaron muchos años, y yo nunca te pude olvidar,  
-cada noche te convertías en susurro,  
-y me acompañabas en cada amanecer.  
+La distancia era grande,
+pero nuestras almas se veían a escondidas en el viento,
+dando a entender que lo nuestro era un destino escrito en fuego y tiempo.
 
-La distancia era grande,  
-pero nuestras almas se veían a escondidas en el viento,  
-dando a entender que lo nuestro era un destino escrito en fuego y tiempo.  
+Ogris, mi amor, mi razón,
+eres la historia que mi corazón no quiso olvidar.
+Aunque la vida intentó alejarnos,
+el universo volvió a reencontrarnos.
 
-Ogris, mi amor, mi razón,  
-eres la historia que mi corazón no quiso olvidar.  
-Aunque la vida intentó alejarnos,  
-el universo volvió a reencontrarnos.  
+Ahora, tu sonrisa que es mi refugio,
+tu voz, el eco de mi paz.
+Me llamas Ogro, mi amor, mi esposo y sonrío,
+porque eres mi hogar.
 
-Ahora, tu sonrisa que es mi refugio,  
-tu voz, el eco de mi paz.  
-Me llamas Ogro, mi amor, mi esposo y sonrío,  
-porque eres mi hogar.  
+No hay distancia que borre lo eterno,
+ni un solo día en que no te quiera.
 
-No hay distancia que borre lo eterno,  
-ni un solo día en que no te quiera.  
-
-Ogrita, mi amor, mi vida,  
-eres la historia que mi corazón no quiso olvidar.  
-Hoy vivimos lo que el destino soñó:  
+Ogrita, mi amor, mi vida,
+eres la historia que mi corazón no quiso olvidar.
+Hoy vivimos lo que el destino soñó:
 tú y yo, y nuestros hijos, un amor sin adiós.`
-      },
-      {
-        title: "Canción 2 - Siempre Contigo",
-        file: "cancion2.mp3",
-        lyrics: `
-Sé que el viento hoy te pesa,  
-que el sol parece apagar su luz.  
-Las sombras te rodean,  
-pero mi Ogris no estás sola, aquí estoy yo para ti.  
+  },
+  {
+    title: "Canción 2 - Siempre Contigo",
+    file: "cancion2.mp3",
+    lyrics: `Sé que el viento hoy te pesa,
+que el sol parece apagar su luz.
+Las sombras te rodean,
+pero mi Ogris no estás sola, aquí estoy yo para ti.
 
-Ogris, mi vida, mi amor,  
-aunque la vida intente quebrarnos,  
-siempre contigo voy a estar,  
-eres mi mundo, eres mi universo.  
+Ogris, mi vida, mi amor,
+aunque la vida intente quebrarnos,
+siempre contigo voy a estar,
+eres mi mundo, eres mi universo.
 
-Cada lágrima que hoy derramas  
-es un eco de todo lo que has dado.  
-Pero amor, eres mucho más fuerte  
-de lo que el miedo te deja mirar.  
+Cada lágrima que hoy derramas
+es un eco de todo lo que has dado.
+Pero amor, eres mucho más fuerte
+de lo que el miedo te deja mirar.
 
-¿Sabes? La distancia nunca nos ha separado,  
-porque siempre estás en mí.  
-Pronto estaré ahí contigo,  
-para abrazarte, besarte y no dejarte ir.  
+¿Sabes? La distancia nunca nos ha separado,
+porque siempre estás en mí.
+Pronto estaré ahí contigo,
+para abrazarte, besarte y no dejarte ir.
 
-Ogris, mi vida, mi amor,  
-aunque la vida intente quebrarnos,  
-siempre contigo voy a estar,  
+Ogris, mi vida, mi amor,
+aunque la vida intente quebrarnos,
+siempre contigo voy a estar,
 eres mi mundo, eres mi universo, mi eternidad.`
-      }
-    ];
+  },
+  {
+    title: "Canción 3 - Estoy Contigo",
+    file: "cancion3.mp3",
+    lyrics: `Sé que el mundo pesa más que ayer,
+que el sol parece esconder su luz.
+Tus lágrimas cuentan mil historias
+de todo lo que has perdido mi amor.
 
-    let currentTrack = 0;
-    const player = document.getElementById('audio-player');
-    const nowPlaying = document.getElementById('now-playing');
-    const lyricsBox = document.getElementById('lyrics');
+Ogris, mi vida, aquí estoy yo para ti,
+no hay distancia que nos separe hoy.
+Aunque la vida nos quiera quebrar,
+tú y yo somos más fuertes que ayer, juntos vamos a vencer.
 
-    function playSong(file, title) {
-      player.src = 'musica/' + file;
-      player.load();
-      nowPlaying.textContent = 'Reproduciendo: ' + title;
+Siento tu dolor en cada suspiro,
+en cada palabra rota al hablar.
+Pero amor, aún hay estrellas
+que sin detenerse, brillan con luz infinita solo para ti.
 
-      nowPlaying.classList.remove('show');
-      void nowPlaying.offsetWidth;
-      nowPlaying.classList.add('show');
+Cuando el miedo intente apagar tu voz,
+cuando la herida duela más que una despedida,
+recuerda que en cada latido,
+mi corazón late contigo, hasta el fin.
 
-      const current = tracks.find(t => t.file === file);
-      lyricsBox.textContent = current?.lyrics || '';
+Esposa mía, mi vida, aquí estoy yo para ti,
+no hay distancia que nos separe hoy.
+Aunque la vida nos quiera quebrar mañana,
+tú y yo somos más fuertes, y con la ayuda de Dios venceremos al final,
+te amo, te amo, te amo, hasta la eternidad.`
+  }
+];
 
-      player.play();
-    }
+let currentTrack = 0;
+const player = document.getElementById('audio-player');
+const nowPlaying = document.getElementById('now-playing');
+const lyricsBox = document.getElementById('lyrics');
 
-    function nextSong() {
-      currentTrack = (currentTrack + 1) % tracks.length;
-      playSong(tracks[currentTrack].file, tracks[currentTrack].title);
-    }
+function playSong(file, title) {
+  player.src = 'musica/' + file;
+  player.load();
+  nowPlaying.textContent = 'Reproduciendo: ' + title;
 
-    function prevSong() {
-      currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
-      playSong(tracks[currentTrack].file, tracks[currentTrack].title);
-    }
+  const current = tracks.find(t => t.file === file);
+  lyricsBox.textContent = current?.lyrics || '';
+  player.play();
+}
 
-    window.onload = () => {
-      playSong(tracks[currentTrack].file, tracks[currentTrack].title);
-      nowPlaying.classList.add('show');
-    };
+function nextSong() {
+  currentTrack = (currentTrack + 1) % tracks.length;
+  playSong(tracks[currentTrack].file, tracks[currentTrack].title);
+}
 
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('download-btn').addEventListener('click', () => {
-        const current = tracks[currentTrack];
-        const link = document.createElement('a');
-        link.href = 'musica/' + current.file;
-        link.download = current.file;
-        link.click();
-      });
+function prevSong() {
+  currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
+  playSong(tracks[currentTrack].file, tracks[currentTrack].title);
+}
+
+window.onload = () => {
+  playSong(tracks[currentTrack].file, tracks[currentTrack].title);
+};
+
+document.getElementById('download-btn').addEventListener('click', () => {
+  const current = tracks[currentTrack];
+  const link = document.createElement('a');
+  link.href = 'musica/' + current.file;
+  link.download = current.file;
+  link.click();
+});
+
+document.addEventListener('click', function(e) {
+  const particle = document.createElement('span');
+  particle.textContent = '✨';
+  particle.style.position = 'absolute';
+  particle.style.left = e.pageX + 'px';
+  particle.style.top = e.pageY + 'px';
+  particle.style.fontSize = '20px';
+  particle.style.pointerEvents = 'none';
+  particle.style.opacity = 1;
+  particle.style.transition = 'all 0.8s ease-out';
+  document.body.appendChild(particle);
+  setTimeout(() => {
+    particle.style.top = (e.pageY - 30) + 'px';
+    particle.style.opacity = 0;
+  }, 10);
+  setTimeout(() => {
+    particle.remove();
+  }, 1000);
+});
+
+let deferredPrompt;
+const installBtn = document.getElementById('install-btn');
+const iosMsg = document.getElementById('ios-msg');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.style.display = 'inline-block';
+});
+
+installBtn.addEventListener('click', () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => {
+      deferredPrompt = null;
+      installBtn.style.display = 'none';
     });
+  }
+});
 
-    document.addEventListener('click', function(e) {
-      const particle = document.createElement('span');
-      particle.textContent = '✨';
-      particle.style.position = 'absolute';
-      particle.style.left = e.pageX + 'px';
-      particle.style.top = e.pageY + 'px';
-      particle.style.fontSize = '20px';
-      particle.style.pointerEvents = 'none';
-      particle.style.opacity = 1;
-      particle.style.transition = 'all 0.8s ease-out';
-      document.body.appendChild(particle);
-      setTimeout(() => {
-        particle.style.top = (e.pageY - 30) + 'px';
-        particle.style.opacity = 0;
-      }, 10);
-      setTimeout(() => {
-        particle.remove();
-      }, 1000);
-    });
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const isInStandaloneMode = ('standalone' in window.navigator) && window.navigator.standalone;
+if (isIOS && !isInStandaloneMode) {
+  iosMsg.style.display = 'block';
+}
+</script>
 
-    let deferredPrompt;
-    const installBtn = document.getElementById('install-btn');
-    const iosMsg = document.getElementById('ios-msg');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      installBtn.style.display = 'inline-block';
-    });
-
-    installBtn.addEventListener('click', () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(() => {
-          deferredPrompt = null;
-          installBtn.style.display = 'none';
-        });
-      }
-    });
-
-    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    const isInStandaloneMode = ('standalone' in window.navigator) && window.navigator.standalone;
-    if (isIOS && !isInStandaloneMode) {
-      iosMsg.style.display = 'block';
-    }
-  </script>
-
-  <!-- ✅ Registro del nuevo Service Worker -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./service-worker.js')
-        .then(reg => console.log("✅ Service Worker registrado"))
-        .catch(err => console.error("❌ Error al registrar Service Worker:", err));
-    }
-  </script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./service-worker.js')
+    .then(reg => console.log("✅ Service Worker registrado"))
+    .catch(err => console.error("❌ Error al registrar Service Worker:", err));
+}
+</script>
 </body>
 </html>
