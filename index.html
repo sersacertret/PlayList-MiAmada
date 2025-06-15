@@ -221,11 +221,26 @@ function playSong(file, title) {
   player.load();
   nowPlaying.textContent = 'Reproduciendo: ' + title;
 
+  // Actualiza la mini portada según la canción
+  const miniCover = document.getElementById('mini-cover');
+  miniCover.src = 'portadas/' + file.replace('.mp3', '.png');
+
+  // Detener animación por si venía de una canción anterior
+  miniCover.style.animationPlayState = 'paused';
+
   const current = tracks.find(t => t.file === file);
   lyricsBox.textContent = current?.lyrics || '';
   player.play();
 }
+player.addEventListener('play', () => {
+  const miniCover = document.getElementById('mini-cover');
+  miniCover.style.animationPlayState = 'running';
+});
 
+player.addEventListener('pause', () => {
+  const miniCover = document.getElementById('mini-cover');
+  miniCover.style.animationPlayState = 'paused';
+});
 function nextSong() {
   currentTrack = (currentTrack + 1) % tracks.length;
   playSong(tracks[currentTrack].file, tracks[currentTrack].title);
