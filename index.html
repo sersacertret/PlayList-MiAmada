@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mi PlayList para mi Amada 💖</title>
 
-  <!-- META para compartir -->
   <meta property="og:title" content="Mi PlayList para mi Amada 💖" />
   <meta property="og:description" content="Una app musical romántica solo para ti." />
   <meta property="og:image" content="https://sersacertret.github.io/PlayList-MiAmada/iconos/preview.jpg" />
@@ -28,10 +26,17 @@
       padding: 1rem;
     }
     .cover {
-      width: 120px;
-      border-radius: 20px;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
       box-shadow: 0 0 10px gold;
       margin: 10px auto;
+      animation: spin 6s linear infinite;
+      animation-play-state: paused;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
     .scroll-text {
       font-size: 14px;
@@ -91,7 +96,7 @@
 
   <main>
     <div class="player">
-      <img src="iconos/icon-192.png" alt="Portada" class="cover" />
+      <img id="cover-image" src="portadas/cancion1.png" alt="Portada" class="cover" />
       <h2 id="now-playing" class="scroll-text">Reproduciendo: Canción 1 - Siempre Tú</h2>
 
       <audio id="audio-player" controls>
@@ -104,9 +109,9 @@
       <div id="ios-msg" class="ios-message">📱 En iPhone, toca <strong>el botón compartir</strong> y selecciona <strong>"Agregar a pantalla de inicio"</strong>.</div>
 
       <ul id="playlist">
-        <li onclick="playSong('cancion1.mp3', 'Canción 1 - Siempre Tú')">▶️ Canción 1 - Siempre Tú</li>
-        <li onclick="playSong('cancion2.mp3', 'Canción 2 - Siempre Contigo')">▶️ Canción 2 - Siempre Contigo</li>
-        <li onclick="playSong('cancion3.mp3', 'Canción 3 - Estoy Contigo')">▶️ Canción 3 - Estoy Contigo</li>
+        <li onclick="playSong(0)">▶️ Canción 1 - Siempre Tú</li>
+        <li onclick="playSong(1)">▶️ Canción 2 - Siempre Contigo</li>
+        <li onclick="playSong(2)">▶️ Canción 3 - Estoy Contigo</li>
       </ul>
 
       <div class="controls">
@@ -122,6 +127,7 @@ const tracks = [
   {
     title: "Canción 1 - Siempre Tú",
     file: "cancion1.mp3",
+    cover: "portadas/cancion1.png",
     lyrics: `Pasaron muchos años, y yo nunca te pude olvidar,
 cada noche te convertías en susurro,
 y me acompañabas en cada amanecer.
@@ -151,6 +157,7 @@ tú y yo, y nuestros hijos, un amor sin adiós.`
   {
     title: "Canción 2 - Siempre Contigo",
     file: "cancion2.mp3",
+    cover: "portadas/cancion2.png",
     lyrics: `Sé que el viento hoy te pesa,
 que el sol parece apagar su luz.
 Las sombras te rodean,
@@ -179,6 +186,7 @@ eres mi mundo, eres mi universo, mi eternidad.`
   {
     title: "Canción 3 - Estoy Contigo",
     file: "cancion3.mp3",
+    cover: "portadas/cancion3.png",
     lyrics: `Sé que el mundo pesa más que ayer,
 que el sol parece esconder su luz.
 Tus lágrimas cuentan mil historias
@@ -202,102 +210,110 @@ mi corazón late contigo, hasta el fin.
 Esposa mía, mi vida, aquí estoy yo para ti,
 no hay distancia que nos separe hoy.
 Aunque la vida nos quiera quebrar mañana,
-tú y yo somos más fuertes,
-y con la ayuda de Dios venceremos al final,
+tú y yo somos más fuertes, y con la ayuda de Dios venceremos al final,
 te amo, te amo, te amo, hasta la eternidad.`
   }
 ];
 
 let currentTrack = 0;
-const player = document.getElementById('audio-player');
-const nowPlaying = document.getElementById('now-playing');
-const lyricsBox = document.getElementById('lyrics');
+const player = document.getElementById("audio-player");
+const nowPlaying = document.getElementById("now-playing");
+const lyricsBox = document.getElementById("lyrics");
+const coverImage = document.getElementById("cover-image");
 
-function playSong(file, title) {
-  player.src = 'musica/' + file;
+function playSong(index) {
+  currentTrack = index;
+  const track = tracks[index];
+  player.src = "musica/" + track.file;
   player.load();
-  nowPlaying.textContent = 'Reproduciendo: ' + title;
-
-  const current = tracks.find(t => t.file === file);
-  lyricsBox.textContent = current?.lyrics || '';
+  nowPlaying.textContent = "Reproduciendo: " + track.title;
+  lyricsBox.textContent = track.lyrics;
+  coverImage.src = track.cover;
   player.play();
 }
 
 function nextSong() {
   currentTrack = (currentTrack + 1) % tracks.length;
-  playSong(tracks[currentTrack].file, tracks[currentTrack].title);
+  playSong(currentTrack);
 }
 
 function prevSong() {
   currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
-  playSong(tracks[currentTrack].file, tracks[currentTrack].title);
+  playSong(currentTrack);
 }
 
+player.addEventListener("play", () => {
+  coverImage.style.animationPlayState = "running";
+});
+player.addEventListener("pause", () => {
+  coverImage.style.animationPlayState = "paused";
+});
+
 window.onload = () => {
-  playSong(tracks[currentTrack].file, tracks[currentTrack].title);
+  playSong(currentTrack);
 };
 
-document.getElementById('download-btn').addEventListener('click', () => {
-  const current = tracks[currentTrack];
-  const link = document.createElement('a');
-  link.href = 'musica/' + current.file;
-  link.download = current.file;
+document.getElementById("download-btn").addEventListener("click", () => {
+  const track = tracks[currentTrack];
+  const link = document.createElement("a");
+  link.href = "musica/" + track.file;
+  link.download = track.file;
   link.click();
 });
 
-document.addEventListener('click', function(e) {
-  const particle = document.createElement('span');
-  particle.textContent = '✨';
-  particle.style.position = 'absolute';
-  particle.style.left = e.pageX + 'px';
-  particle.style.top = e.pageY + 'px';
-  particle.style.fontSize = '20px';
-  particle.style.pointerEvents = 'none';
+document.addEventListener("click", function (e) {
+  const particle = document.createElement("span");
+  particle.textContent = "✨";
+  particle.style.position = "absolute";
+  particle.style.left = e.pageX + "px";
+  particle.style.top = e.pageY + "px";
+  particle.style.fontSize = "20px";
+  particle.style.pointerEvents = "none";
   particle.style.opacity = 1;
-  particle.style.transition = 'all 0.8s ease-out';
+  particle.style.transition = "all 0.8s ease-out";
   document.body.appendChild(particle);
   setTimeout(() => {
-    particle.style.top = (e.pageY - 30) + 'px';
+    particle.style.top = e.pageY - 30 + "px";
     particle.style.opacity = 0;
   }, 10);
   setTimeout(() => {
     particle.remove();
   }, 1000);
 });
-
+<script>
 let deferredPrompt;
-const installBtn = document.getElementById('install-btn');
-const iosMsg = document.getElementById('ios-msg');
+const installBtn = document.getElementById("install-btn");
+const iosMsg = document.getElementById("ios-msg");
 
-window.addEventListener('beforeinstallprompt', (e) => {
+window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  installBtn.style.display = 'inline-block';
+  installBtn.style.display = "inline-block";
 });
 
-installBtn.addEventListener('click', () => {
+installBtn.addEventListener("click", () => {
   if (deferredPrompt) {
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then(() => {
       deferredPrompt = null;
-      installBtn.style.display = 'none';
+      installBtn.style.display = "none";
     });
   }
 });
 
 const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-const isInStandaloneMode = ('standalone' in window.navigator) && window.navigator.standalone;
+const isInStandaloneMode = ("standalone" in window.navigator) && window.navigator.standalone;
 if (isIOS && !isInStandaloneMode) {
-  iosMsg.style.display = 'block';
+  iosMsg.style.display = "block";
+}
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("./service-worker.js")
+    .then((reg) => console.log("✅ Service Worker registrado"))
+    .catch((err) => console.error("❌ Error al registrar SW:", err));
 }
 </script>
 
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./service-worker.js')
-    .then(reg => console.log("✅ Service Worker registrado"))
-    .catch(err => console.error("❌ Error al registrar Service Worker:", err));
-}
-</script>
 </body>
 </html>
