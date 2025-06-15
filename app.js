@@ -9,11 +9,25 @@ const audio = document.getElementById("audio-player");
 const title = document.getElementById("track-title");
 
 function loadTrack(index) {
-  audio.src = tracks[index].file;
-  title.textContent = tracks[index].title;
+  const track = tracks[index];
+  audio.src = track.file;
+  title.textContent = track.title;
+
+  // Actualizar mini portada
+  const miniCover = document.getElementById("mini-cover");
+  miniCover.src = "portadas/cancion" + (index + 1) + ".png";
+
   audio.play();
 }
+audio.addEventListener("play", () => {
+  const miniCover = document.getElementById("mini-cover");
+  miniCover.style.animationPlayState = "running";
+});
 
+audio.addEventListener("pause", () => {
+  const miniCover = document.getElementById("mini-cover");
+  miniCover.style.animationPlayState = "paused";
+});
 function nextSong() {
   currentTrack = (currentTrack + 1) % tracks.length;
   loadTrack(currentTrack);
