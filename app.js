@@ -1,7 +1,11 @@
 const tracks = [
   { title: "Canción 1 - Siempre Tú", file: "musica/cancion1.mp3" },
   { title: "Canción 2 - Siempre Contigo", file: "musica/cancion2.mp3" },
-  { title: "Canción 3 - Estoy Contigo", file: "musica/cancion3.mp3" }
+  { title: "Canción 3 - Estoy Contigo", file: "musica/cancion3.mp3" },
+{
+    title: "Canción 4 - Me Acordaba de Ti",
+    file: "cancion4.mp3"
+  }
 ];
 
 let currentTrack = 0;
