@@ -5,14 +5,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mi PlayList para mi Amada 💖</title>
-
-  <!-- META para compartir -->
   <meta property="og:title" content="Mi PlayList para mi Amada 💖" />
   <meta property="og:description" content="Una app musical romántica solo para ti." />
   <meta property="og:image" content="https://sersacertret.github.io/PlayList-MiAmada/iconos/preview.jpg" />
   <meta property="og:url" content="https://sersacertret.github.io/PlayList-MiAmada/" />
   <meta name="twitter:card" content="summary_large_image" />
-
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="iconos/icon-192.png" type="image/png" />
   <style>
@@ -48,21 +45,6 @@
       0% { transform: translateX(100%); }
       100% { transform: translateX(-100%); }
     }
-    .download-button, .install-button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      margin-top: 15px;
-      font-size: 14px;
-      transition: transform 0.2s ease, background-color 0.3s ease;
-    }
-    .download-button:hover, .install-button:hover {
-      transform: scale(1.05);
-      background-color: #45a049;
-    }
     .ios-message {
       margin-top: 10px;
       font-size: 14px;
@@ -82,284 +64,92 @@
       padding: 15px;
       border-radius: 10px;
     }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>🎶 Mi PlayList para mi Amada 💖</h1>
   </header>
-
   <main>
     <div class="player">
       <img src="iconos/icon-192.png" alt="Portada" class="cover" />
       <div id="now-playing-container" class="scroll-text" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
- <img id="mini-cover" src="portadas/cancion1.png" alt="Mini portada" style="width: 30px; height: 30px; border-radius: 50%; animation: spin 4s linear infinite; animation-play-state: paused;" />
-  <span id="now-playing">Reproduciendo: Canción 1 - Siempre Tú</span>
-</div>
-
-      <audio id="audio-player" controls>
-        <source src="musica/cancion1.mp3" type="audio/mp3" />
-        Tu navegador no soporta el reproductor de audio.
-      </audio>
-
-      <button id="download-btn" class="download-button">⬇️ Descargar canción actual</button>
-      <button id="install-btn" class="install-button" style="display: none;">📲 Instalar esta app</button>
-      <div id="ios-msg" class="ios-message">📱 En iPhone, toca <strong>el botón compartir</strong> y selecciona <strong>"Agregar a pantalla de inicio"</strong>.</div>
-
+        <img id="mini-cover" src="portadas/cancion1.png" alt="Mini portada" style="width: 30px; height: 30px; border-radius: 50%; animation: spin 4s linear infinite; animation-play-state: paused;" />
+        <span id="now-playing">Reproduciendo: Canción 1 - Siempre Tú</span>
+      </div>
+      <div id="video-container">
+        <iframe id="youtube-player" width="100%" height="215" src="https://www.youtube.com/embed/VD6DLmtx7DU?autoplay=1&rel=0" frameborder="0" allowfullscreen></iframe>
+      </div>
       <ul id="playlist">
-        <li onclick="playSong('cancion1.mp3', 'Canción 1 - Siempre Tú')">▶️ Canción 1 - Siempre Tú</li>
-        <li onclick="playSong('cancion2.mp3', 'Canción 2 - Siempre Contigo')">▶️ Canción 2 - Siempre Contigo</li>
-        <li onclick="playSong('cancion3.mp3', 'Canción 3 - Estoy Contigo')">▶️ Canción 3 - Estoy Contigo</li>
-        <li onclick="playSong('cancion4.mp3', 'Canción 4 - Me Acordaba de Ti')">▶️ Canción 4 - Me Acordaba de Ti</li>
+        <li onclick="playSong(0)">▶️ Canción 1 - Siempre Tú</li>
+        <li onclick="playSong(1)">▶️ Canción 2 - Siempre Contigo</li>
+        <li onclick="playSong(2)">▶️ Canción 3 - Estoy Contigo</li>
+        <li onclick="playSong(3)">▶️ Canción 4 - Me Acordaba de Ti</li>
       </ul>
-
       <div class="controls">
         <button onclick="prevSong()">⏮️ Anterior</button>
         <button onclick="nextSong()">⏭️ Siguiente</button>
       </div>
-
       <div id="lyrics"></div>
     </div>
   </main>
-<script>
-const tracks = [
-  {
-    title: "Canción 1 - Siempre Tú",
-    file: "cancion1.mp3",
-    lyrics: `Pasaron muchos años, y yo nunca te pude olvidar,
-cada noche te convertías en susurro,
-y me acompañabas en cada amanecer.
+  <script>
+    const tracks = [
+      {
+        title: "Canción 1 - Siempre Tú",
+        videoId: "VD6DLmtx7DU",
+        cover: "portadas/cancion1.png",
+        lyrics: "Letra canción 1"
+      },
+      {
+        title: "Canción 2 - Siempre Contigo",
+        videoId: "TaIOvdwlTFA",
+        cover: "portadas/cancion2.png",
+        lyrics: "Letra canción 2"
+      },
+      {
+        title: "Canción 3 - Estoy Contigo",
+        videoId: "nKexnpWRl34",
+        cover: "portadas/cancion3.png",
+        lyrics: "Letra canción 3"
+      },
+      {
+        title: "Canción 4 - Me Acordaba de Ti",
+        videoId: "uOVsaV79Rcg",
+        cover: "portadas/cancion4.png",
+        lyrics: "Letra canción 4"
+      }
+    ];
 
-La distancia era grande,
-pero nuestras almas se veían a escondidas en el viento,
-dando a entender que lo nuestro era un destino escrito en fuego y tiempo.
+    let currentTrack = 0;
 
-Ogris, mi amor, mi razón,
-eres la historia que mi corazón no quiso olvidar.
-Aunque la vida intentó alejarnos,
-el universo volvió a reencontrarnos.
+    function playSong(index) {
+      const track = tracks[index];
+      currentTrack = index;
+      document.getElementById('now-playing').textContent = 'Reproduciendo: ' + track.title;
+      document.getElementById('mini-cover').src = track.cover;
+      document.getElementById('lyrics').textContent = track.lyrics;
+      document.getElementById('youtube-player').src = `https://www.youtube.com/embed/${track.videoId}?autoplay=1&rel=0`;
+      document.getElementById('mini-cover').style.animationPlayState = 'running';
+    }
 
-Ahora, tu sonrisa que es mi refugio,
-tu voz, el eco de mi paz.
-Me llamas Ogro, mi amor, mi esposo y sonrío,
-porque eres mi hogar.
+    function nextSong() {
+      currentTrack = (currentTrack + 1) % tracks.length;
+      playSong(currentTrack);
+    }
 
-No hay distancia que borre lo eterno,
-ni un solo día en que no te quiera.
+    function prevSong() {
+      currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
+      playSong(currentTrack);
+    }
 
-Ogrita, mi amor, mi vida,
-eres la historia que mi corazón no quiso olvidar.
-Hoy vivimos lo que el destino soñó:
-tú y yo, y nuestros hijos, un amor sin adiós.`
-  },
-  {
-    title: "Canción 2 - Siempre Contigo",
-    file: "cancion2.mp3",
-    lyrics: `Sé que el viento hoy te pesa,
-que el sol parece apagar su luz.
-Las sombras te rodean,
-pero mi Ogris no estás sola, aquí estoy yo para ti.
-
-Ogris, mi vida, mi amor,
-aunque la vida intente quebrarnos,
-siempre contigo voy a estar,
-eres mi mundo, eres mi universo.
-
-Cada lágrima que hoy derramas
-es un eco de todo lo que has dado.
-Pero amor, eres mucho más fuerte
-de lo que el miedo te deja mirar.
-
-¿Sabes? La distancia nunca nos ha separado,
-porque siempre estás en mí.
-Pronto estaré ahí contigo,
-para abrazarte, besarte y no dejarte ir.
-
-Ogris, mi vida, mi amor,
-aunque la vida intente quebrarnos,
-siempre contigo voy a estar,
-eres mi mundo, eres mi universo, mi eternidad.`
-  },
-  {
-    title: "Canción 3 - Estoy Contigo",
-    file: "cancion3.mp3",
-    lyrics: `Sé que el mundo pesa más que ayer,
-que el sol parece esconder su luz.
-Tus lágrimas cuentan mil historias
-de todo lo que has perdido mi amor.
-
-Ogris, mi vida, aquí estoy yo para ti,
-no hay distancia que nos separe hoy.
-Aunque la vida nos quiera quebrar,
-tú y yo somos más fuertes que ayer, juntos vamos a vencer.
-
-Siento tu dolor en cada suspiro,
-en cada palabra rota al hablar.
-Pero amor, aún hay estrellas
-que sin detenerse, brillan con luz infinita solo para ti.
-
-Cuando el miedo intente apagar tu voz,
-cuando la herida duela más que una despedida,
-recuerda que en cada latido,
-mi corazón late contigo, hasta el fin.
-
-Esposa mía, mi vida, aquí estoy yo para ti,
-no hay distancia que nos separe hoy.
-Aunque la vida nos quiera quebrar mañana,
-tú y yo somos más fuertes,
-y con la ayuda de Dios venceremos al final,
-te amo, te amo, te amo, hasta la eternidad.`
-  },
-{
-    title: "Canción 4 - Me Acordaba de Ti",
-    file: "cancion4.mp3",
-    lyrics: `Tu nombre lo escuché mil veces en otros labios, 
-aunque no hablaban de ti,
-y mi alma volvía a temblar al recordarte.
-
-Publicidad, letreros, rayados en la acera,  
-todo gritaba que no te olvidara.
-
-Me acordaba de ti sin querer,  
-cuando el aire susurraba tu manera de amar.  
-En un regalo viejo, en una canción dedicada,  
-te aparecías sin explicación.  
-Y aunque fingía seguir sin mirar atrás,  
-me acordaba de ti.
-
-Cuando llegaba el mes en que naciste,  
-el cielo cambiaba y la nostalgia venía a verme.
-
-Una noticia nombraba tu ciudad,  
-y mi corazón en mi pecho respondía sin preguntar.
-
-Me acordaba de ti, sin razón,  
-como un eco perdido en la estación.  
-En un mensaje de texto olvidado,
-en las canciones dedicadas de aquel viejo amor.  
-Aunque el tiempo insistía en huir,  
-me acordaba siempre de ti.
-
-En cada rincón que la vida dejó,  
-tu ausencia cantaba lo que el alma guardó.  
-Nunca aprendí a dejar de sentir,  
-todo me llevaba de nuevo a ti.
-
-Me acordaba de ti sin final,  
-en lo simple, en lo más casual.  
-Como si el universo quisiera insistir  
-en volvernos a unir… y así fue.  
-Hoy somos esposos, porque el amor no terminó.  
-La oscuridad quiso apagarnos, pero no venció.  
-La luz nos halló… y el destino nos abrazó.`
-  }
-];
-
-let currentTrack = 0;
-const player = document.getElementById('audio-player');
-const nowPlaying = document.getElementById('now-playing');
-const lyricsBox = document.getElementById('lyrics');
-
-function playSong(file, title) {
-  player.src = 'musica/' + file;
-  player.load();
-  nowPlaying.textContent = 'Reproduciendo: ' + title;
-
-  // Actualiza la mini portada según la canción
-  const miniCover = document.getElementById('mini-cover');
-  miniCover.src = 'portadas/' + file.replace('.mp3', '.png');
-
-  // Detener animación por si venía de una canción anterior
-  miniCover.style.animationPlayState = 'paused';
-
-  const current = tracks.find(t => t.file === file);
-  lyricsBox.textContent = current?.lyrics || '';
-  player.play();
-}
-player.addEventListener('play', () => {
-  const miniCover = document.getElementById('mini-cover');
-  miniCover.style.animationPlayState = 'running';
-});
-
-player.addEventListener('pause', () => {
-  const miniCover = document.getElementById('mini-cover');
-  miniCover.style.animationPlayState = 'paused';
-});
-function nextSong() {
-  currentTrack = (currentTrack + 1) % tracks.length;
-  playSong(tracks[currentTrack].file, tracks[currentTrack].title);
-}
-
-function prevSong() {
-  currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
-  playSong(tracks[currentTrack].file, tracks[currentTrack].title);
-}
-
-window.onload = () => {
-  playSong(tracks[currentTrack].file, tracks[currentTrack].title);
-};
-
-document.getElementById('download-btn').addEventListener('click', () => {
-  const current = tracks[currentTrack];
-  const link = document.createElement('a');
-  link.href = 'musica/' + current.file;
-  link.download = current.file;
-  link.click();
-});
-
-document.addEventListener('click', function(e) {
-  const particle = document.createElement('span');
-  particle.textContent = '✨';
-  particle.style.position = 'absolute';
-  particle.style.left = e.pageX + 'px';
-  particle.style.top = e.pageY + 'px';
-  particle.style.fontSize = '20px';
-  particle.style.pointerEvents = 'none';
-  particle.style.opacity = 1;
-  particle.style.transition = 'all 0.8s ease-out';
-  document.body.appendChild(particle);
-  setTimeout(() => {
-    particle.style.top = (e.pageY - 30) + 'px';
-    particle.style.opacity = 0;
-  }, 10);
-  setTimeout(() => {
-    particle.remove();
-  }, 1000);
-});
-
-let deferredPrompt;
-const installBtn = document.getElementById('install-btn');
-const iosMsg = document.getElementById('ios-msg');
-
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  installBtn.style.display = 'inline-block';
-});
-
-installBtn.addEventListener('click', () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(() => {
-      deferredPrompt = null;
-      installBtn.style.display = 'none';
-    });
-  }
-});
-
-const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-const isInStandaloneMode = ('standalone' in window.navigator) && window.navigator.standalone;
-if (isIOS && !isInStandaloneMode) {
-  iosMsg.style.display = 'block';
-}
-</script>
-
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./service-worker.js')
-    .then(reg => console.log("✅ Service Worker registrado"))
-    .catch(err => console.error("❌ Error al registrar Service Worker:", err));
-}
-</script>
+    window.onload = () => {
+      playSong(currentTrack);
+    };
+  </script>
 </body>
 </html>
