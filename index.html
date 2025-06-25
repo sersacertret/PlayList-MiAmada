@@ -260,5 +260,26 @@ La luz nos halló… y el destino nos abrazó.`
       playSong(currentTrack);
     };
   </script>
+<script>
+document.addEventListener('click', function(e) {
+  const particle = document.createElement('span');
+  particle.textContent = '✨';
+  particle.style.position = 'absolute';
+  particle.style.left = e.pageX + 'px';
+  particle.style.top = e.pageY + 'px';
+  particle.style.fontSize = '20px';
+  particle.style.pointerEvents = 'none';
+  particle.style.opacity = 1;
+  particle.style.transition = 'all 0.8s ease-out';
+  document.body.appendChild(particle);
+  setTimeout(() => {
+    particle.style.top = (e.pageY - 30) + 'px';
+    particle.style.opacity = 0;
+  }, 10);
+  setTimeout(() => {
+    particle.remove();
+  }, 1000);
+});
+</script>
 </body>
 </html>
